@@ -18,9 +18,9 @@ A Laravel-based system for managing **Products**, **Categories**, **Images**, **
 
 ## Requirements
 
-- PHP >= 8.1  
+- PHP >= 8.2  
 - Composer  
-- Laravel 10  
+- Laravel 12
 - MySQL / PostgreSQL  
 - Node.js & npm (for compiling assets)  
 - Optional: Redis or Memcached for caching  
@@ -35,11 +35,12 @@ A Laravel-based system for managing **Products**, **Categories**, **Images**, **
 git clone https://github.com/yourusername/product-geo-system.git
 cd product-geo-system
 
-Install dependencies
+For run the project
 
 composer install
 npm install
 npm run dev
+npm run build
 
 Configure Environment
 
@@ -54,20 +55,21 @@ DB_DATABASE=product_geo_system
 DB_USERNAME=root
 DB_PASSWORD=secret
 
+Set Cache Driver
+
+CACHE_DRIVER=redis
+CACHE_DRIVER=file
+
 Generate Application Key
 
 php artisan key:generate
 
 Run Migrations
-
 php artisan migrate
 
 This will create tables:
-
 product_categories
-
 products
-
 images
 geos
 product_geo_prices
@@ -75,11 +77,9 @@ price_coefficients
 likes
 
 Link Storage
-
 php artisan storage:link
 
 Run the Application
-
 php artisan serve
 
 Open in your browser: http://localhost:8000
@@ -123,26 +123,27 @@ routes/
 
 Usage
 
-Create Categories → Admin can add new categories.
-Create Products → Assign category, upload multiple images, and configure GEO prices.
-View Products → Products displayed with images carousel, category, GEO prices, and like/dislike buttons.
-Edit/Delete Products → Update info or remove product and associated images/GEO prices.
-Image Upload → Separate form for uploading images to any product or category.
-Likes/Dislikes → Users can like or dislike products; counts stored in DB and cached.
+1. Create Categories → Admin can add new categories.
+2. Create Products → Assign category, upload multiple images, and configure GEO prices.
+3. View Products → Products displayed with images carousel, category, GEO prices, and like/dislike buttons.
+4. Edit/Delete Products → Update info or remove product and associated images/GEO prices.
+5. Image Upload → Separate form for uploading images to any product or category.
+6. Likes/Dislikes → Users can like or dislike products; counts stored in DB and cached.
+7. use cron job * * * * * cd /path/to/project && php artisan schedule:run >> /dev/null 2>&1
 
 Notes
 
-Multiple Images: Max 10 images per product.
-GEO Prices: Stored in product_geo_prices table. Dynamic price can be applied with price_coefficients.
-Caching: Redis/Memcached can be used to speed up price queries or like counts.
-Error Handling: All CRUD operations use try/catch and log errors in storage/logs/laravel.log.
+1. Multiple Images: Max 10 images per product.
+2. GEO Prices: Stored in product_geo_prices table. Dynamic price can be applied with price_coefficients.
+3. Caching: Redis/Memcached can be used to speed up price queries or like counts.
+4. Error Handling: All CRUD operations use try/catch and log errors in storage/logs/laravel.log.
 
 Future Enhancements
 
-Dynamic price coefficient calculation based on leads
-Background job to update prices every 10 minutes
-Advanced image similarity detection for uploaded images
-Like/dislike count cache with real-time update.
+1. Dynamic price coefficient calculation based on leads
+2. Background job to update prices every 10 minutes
+3. Advanced image similarity detection for uploaded images
+4. Like/dislike count cache with real-time update.
 
 Commands Summary
 
