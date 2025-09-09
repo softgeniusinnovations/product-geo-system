@@ -1,52 +1,51 @@
-Product Geo System
+# Product Geo System
 
-A Laravel-based system for managing products, categories, images, GEO-based pricing, and like/dislike actions with caching and multi-image support.
+A Laravel-based system for managing **Products**, **Categories**, **Images**, **GEO-based Pricing**, and **Like/Dislike Actions** with caching and multi-image support.
 
-Features
+---
 
-CRUD for Products and Categories
+## Features
 
-Multiple images per product (stored in images table)
+- CRUD for **Products** and **Categories**  
+- **Multiple images per product** (stored in `images` table)  
+- **GEO pricing** with delivery cost and local base price per GEO  
+- **Dynamic price coefficient** for adjusting prices (planned feature)  
+- **Like/Dislike system** for products or other entities  
+- **Bootstrap 5 UI** with carousel for product images  
+- **Redis/Memcached caching support** for performance  
 
-GEO pricing with delivery cost and local base price per GEO
+---
 
-Dynamic price coefficient (planned for future updates)
+## Requirements
 
-Like/Dislike system for products or other entities
+- PHP >= 8.1  
+- Composer  
+- Laravel 10  
+- MySQL / PostgreSQL  
+- Node.js & npm (for compiling assets)  
+- Optional: Redis or Memcached for caching  
 
-Bootstrap 5 UI with carousel for product images
+---
 
-Redis/Memcached caching support for performance
+## Installation
 
-Requirements
+### 1. Clone the repository
 
-PHP >= 8.1
-
-Composer
-
-Laravel 10
-
-MySQL / PostgreSQL
-
-Node.js & npm (for assets compilation)
-
-Optional: Redis or Memcached for caching
-
-Installation
-1. Clone the repository
+```bash
 git clone https://github.com/yourusername/product-geo-system.git
 cd product-geo-system
 
-2. Install dependencies
+Install dependencies
+
 composer install
 npm install
 npm run dev
 
-3. Configure Environment
+Configure Environment
+
 cp .env.example .env
 
-
-Update .env with your database credentials and other settings:
+Update .env with your database credentials:
 
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
@@ -55,12 +54,13 @@ DB_DATABASE=product_geo_system
 DB_USERNAME=root
 DB_PASSWORD=secret
 
-4. Generate application key
+Generate Application Key
+
 php artisan key:generate
 
-5. Run migrations & seeders
-php artisan migrate:fresh --seed
+Run Migrations
 
+php artisan migrate
 
 This will create tables:
 
@@ -69,25 +69,23 @@ product_categories
 products
 
 images
-
 geos
-
 product_geo_prices
-
 price_coefficients
-
 likes
 
-6. Link storage
+Link Storage
+
 php artisan storage:link
 
-7. Run the application
+Run the Application
+
 php artisan serve
 
-
-Access the app at http://localhost:8000
+Open in your browser: http://localhost:8000
 
 Folder Structure
+
 app/
 ├─ Models/
 │  ├─ Product.php
@@ -102,10 +100,6 @@ app/
 │  │  ├─ CategoryController.php
 │  │  ├─ ImageController.php
 │  │  └─ LikeController.php
-│  └─ Requests/
-├─ Console/
-├─ Jobs/
-├─ Services/
 database/
 ├─ migrations/
 ├─ seeders/
@@ -130,33 +124,44 @@ routes/
 Usage
 
 Create Categories → Admin can add new categories.
-
 Create Products → Assign category, upload multiple images, and configure GEO prices.
-
 View Products → Products displayed with images carousel, category, GEO prices, and like/dislike buttons.
-
 Edit/Delete Products → Update info or remove product and associated images/GEO prices.
-
 Image Upload → Separate form for uploading images to any product or category.
-
 Likes/Dislikes → Users can like or dislike products; counts stored in DB and cached.
 
 Notes
 
 Multiple Images: Max 10 images per product.
-
-GEO Prices: Stored in product_geo_prices table, dynamic price can be applied later with price_coefficients.
-
-Caching: Can use Redis/Memcached to speed up price queries or like counts.
-
-Error Handling: All CRUD operations use try/catch and logs errors in storage/logs/laravel.log.
+GEO Prices: Stored in product_geo_prices table. Dynamic price can be applied with price_coefficients.
+Caching: Redis/Memcached can be used to speed up price queries or like counts.
+Error Handling: All CRUD operations use try/catch and log errors in storage/logs/laravel.log.
 
 Future Enhancements
 
 Dynamic price coefficient calculation based on leads
-
 Background job to update prices every 10 minutes
-
 Advanced image similarity detection for uploaded images
+Like/dislike count cache with real-time update.
 
-Like/dislike count cache with real-time updates
+Commands Summary
+
+# Install dependencies
+composer install
+npm install
+npm run dev
+
+# Setup environment
+cp .env.example .env
+php artisan key:generate
+
+# Database migrations & seed
+php artisan migrate:fresh --seed
+
+# Storage link
+php artisan storage:link
+
+# Run server
+php artisan serve
+
+
