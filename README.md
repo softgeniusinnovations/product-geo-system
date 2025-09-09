@@ -1,61 +1,162 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+Product Geo System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A Laravel-based system for managing products, categories, images, GEO-based pricing, and like/dislike actions with caching and multi-image support.
 
-## About Laravel
+Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+CRUD for Products and Categories
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Multiple images per product (stored in images table)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+GEO pricing with delivery cost and local base price per GEO
 
-## Learning Laravel
+Dynamic price coefficient (planned for future updates)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Like/Dislike system for products or other entities
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Bootstrap 5 UI with carousel for product images
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Redis/Memcached caching support for performance
 
-## Laravel Sponsors
+Requirements
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+PHP >= 8.1
 
-### Premium Partners
+Composer
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Laravel 10
 
-## Contributing
+MySQL / PostgreSQL
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Node.js & npm (for assets compilation)
 
-## Code of Conduct
+Optional: Redis or Memcached for caching
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Installation
+1. Clone the repository
+git clone https://github.com/yourusername/product-geo-system.git
+cd product-geo-system
 
-## Security Vulnerabilities
+2. Install dependencies
+composer install
+npm install
+npm run dev
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+3. Configure Environment
+cp .env.example .env
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Update .env with your database credentials and other settings:
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=product_geo_system
+DB_USERNAME=root
+DB_PASSWORD=secret
+
+4. Generate application key
+php artisan key:generate
+
+5. Run migrations & seeders
+php artisan migrate:fresh --seed
+
+
+This will create tables:
+
+product_categories
+
+products
+
+images
+
+geos
+
+product_geo_prices
+
+price_coefficients
+
+likes
+
+6. Link storage
+php artisan storage:link
+
+7. Run the application
+php artisan serve
+
+
+Access the app at http://localhost:8000
+
+Folder Structure
+app/
+├─ Models/
+│  ├─ Product.php
+│  ├─ ProductCategory.php
+│  ├─ ProductGeoPrice.php
+│  ├─ PriceCoefficient.php
+│  ├─ Image.php
+│  └─ Geo.php
+├─ Http/
+│  ├─ Controllers/
+│  │  ├─ ProductController.php
+│  │  ├─ CategoryController.php
+│  │  ├─ ImageController.php
+│  │  └─ LikeController.php
+│  └─ Requests/
+├─ Console/
+├─ Jobs/
+├─ Services/
+database/
+├─ migrations/
+├─ seeders/
+resources/
+├─ views/
+│  ├─ layouts/app.blade.php
+│  ├─ products/
+│  │  ├─ index.blade.php
+│  │  ├─ create.blade.php
+│  │  └─ edit.blade.php
+│  ├─ categories/
+│  │  ├─ index.blade.php
+│  │  ├─ create.blade.php
+│  │  └─ edit.blade.php
+│  └─ images/
+│     └─ upload.blade.php
+public/
+├─ storage/ (linked via `php artisan storage:link`)
+routes/
+├─ web.php
+
+Usage
+
+Create Categories → Admin can add new categories.
+
+Create Products → Assign category, upload multiple images, and configure GEO prices.
+
+View Products → Products displayed with images carousel, category, GEO prices, and like/dislike buttons.
+
+Edit/Delete Products → Update info or remove product and associated images/GEO prices.
+
+Image Upload → Separate form for uploading images to any product or category.
+
+Likes/Dislikes → Users can like or dislike products; counts stored in DB and cached.
+
+Notes
+
+Multiple Images: Max 10 images per product.
+
+GEO Prices: Stored in product_geo_prices table, dynamic price can be applied later with price_coefficients.
+
+Caching: Can use Redis/Memcached to speed up price queries or like counts.
+
+Error Handling: All CRUD operations use try/catch and logs errors in storage/logs/laravel.log.
+
+Future Enhancements
+
+Dynamic price coefficient calculation based on leads
+
+Background job to update prices every 10 minutes
+
+Advanced image similarity detection for uploaded images
+
+Like/dislike count cache with real-time updates
