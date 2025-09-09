@@ -32,7 +32,7 @@ A Laravel-based system for managing **Products**, **Categories**, **Images**, **
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/product-geo-system.git
+git clone https://github.com/softgeniusinnovations/product-geo-system.git
 cd product-geo-system
 
 For run the project
